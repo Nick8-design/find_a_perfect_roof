@@ -1,0 +1,319 @@
+{
+  "info": {
+    "_postman_id": "a9e1d820-21f4-4e78-9562-b947a1c89012",
+    "name": "AI House Hunting & PayPal Booking API",
+    "description": "Complete test suite for the AI House Hunting backend, including Gemini AI chat, property listings, and PayPal Sandbox payment lifecycle (lock, create order, capture, and cancel).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000",
+      "type": "string"
+    },
+    {
+      "key": "houseId",
+      "value": "house_1",
+      "type": "string"
+    },
+    {
+      "key": "orderId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "bookingId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "1. Health & Status",
+      "item": [
+        {
+          "name": "Check Backend Health",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/health",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "health"
+              ]
+            },
+            "description": "Verifies that the Express server is up and responsive."
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. House Listings",
+      "item": [
+        {
+          "name": "Get All Houses",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/houses",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "houses"
+              ]
+            },
+            "description": "Fetches all available properties."
+          }
+        },
+        {
+          "name": "Search Houses by Filter",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/houses?location=Westlands&bedrooms=2&maxRent=800",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "houses"
+              ],
+              "query": [
+                {
+                  "key": "location",
+                  "value": "Westlands"
+                },
+                {
+                  "key": "bedrooms",
+                  "value": "2"
+                },
+                {
+                  "key": "maxRent",
+                  "value": "800"
+                }
+              ]
+            },
+            "description": "Filters houses by location, bedroom count, and max rent."
+          }
+        },
+        {
+          "name": "Get Single House by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/houses/{{houseId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "houses",
+                "{{houseId}}"
+              ]
+            },
+            "description": "Fetches single house details including caretaker phone number and image gallery."
+          }
+        },
+        {
+          "name": "Add New House Listing",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"id\": \"house_custom_101\",\n  \"title\": \"Luxury 2-Bedroom Penthouse with Rooftop View\",\n  \"location\": \"Kileleshwa\",\n  \"bedrooms\": 2,\n  \"monthlyRent\": 850.0,\n  \"depositAmount\": 200.0,\n  \"description\": \"High-end penthouse apartment with panoramic city views, solar water, and infinity pool.\",\n  \"images\": [\n    \"https://images.unsplash.com/photo-1545324418-cc1a3fa10c00\",\n    \"https://images.unsplash.com/photo-1512917774080-9991f1c4c750\"\n  ],\n  \"amenities\": [\n    \"Rooftop Pool\",\n    \"Gym\",\n    \"Backup Generator\",\n    \"High-Speed WiFi\"\n  ],\n  \"contactName\": \"Peter Omondi\",\n  \"contactPhone\": \"+254711998877\",\n  \"contactEmail\": \"peter.caretaker@example.com\",\n  \"contactRole\": \"Caretaker\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/houses",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "houses"
+              ]
+            },
+            "description": "Endpoint to add a new house listing with amenities and caretaker contact details."
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. Gemini AI Agent Chat",
+      "item": [
+        {
+          "name": "Search Houses via Gemini (Natural Language)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"Hi, I am looking for a 2 bedroom house around Westlands with a budget of 800 dollars.\",\n  \"conversationHistory\": []\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/chat",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "chat"
+              ]
+            },
+            "description": "Sends user search prompt to Gemini AI agent. Gemini detects the intent and triggers the searchHouses function."
+          }
+        },
+        {
+          "name": "Ask Question about Caretaker or Amenities",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"message\": \"Can you give me the caretaker phone number and details for house_1?\",\n  \"conversationHistory\": []\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/chat",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "chat"
+              ]
+            },
+            "description": "Gemini answers specific questions about property contact details."
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. PayPal Booking & Double-Booking Lock",
+      "item": [
+        {
+          "name": "1. Create Order & Lock House (15-Min Hold)",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const response = pm.response.json();",
+                  "if (response.orderId) {",
+                  "    pm.collectionVariables.set('orderId', response.orderId);",
+                  "    pm.collectionVariables.set('bookingId', response.bookingId);",
+                  "    console.log('Saved orderId:', response.orderId);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"houseId\": \"house_1\",\n  \"userId\": \"tenant_user_77\",\n  \"tenantName\": \"Nick Dieda\",\n  \"tenantPhone\": \"+254712345678\",\n  \"tenantEmail\": \"nick.tenant@example.com\",\n  \"monthsPaid\": 3,\n  \"startDate\": \"2026-11-01\",\n  \"tenantNotes\": \"Move in on 1st November. Need parking bay assigned.\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/bookings/create-order",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bookings",
+                "create-order"
+              ]
+            },
+            "description": "Places an atomic 15-minute lock on house_1, calculates 3 months rent + deposit, creates a PayPal Sandbox Order, and stores orderId in Postman variables."
+          }
+        },
+        {
+          "name": "2. Capture PayPal Payment (Finalize Booking)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orderId\": \"{{orderId}}\",\n  \"bookingId\": \"{{bookingId}}\",\n  \"houseId\": \"house_1\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/bookings/capture-order",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bookings",
+                "capture-order"
+              ]
+            },
+            "description": "Captures the PayPal transaction after tenant approves payment, permanently marks the house as BOOKED, and sets status to PAID."
+          }
+        },
+        {
+          "name": "3. Cancel Hold (Release House)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"houseId\": \"house_1\",\n  \"bookingId\": \"{{bookingId}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/bookings/cancel-order",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "bookings",
+                "cancel-order"
+              ]
+            },
+            "description": "Releases the 15-minute hold immediately if the user closes the PayPal popup without paying."
+          }
+        }
+      ]
+    }
+  ]
+}

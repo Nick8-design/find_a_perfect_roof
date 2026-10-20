@@ -1,0 +1,31 @@
+{
+  "name": "house-hunting-backend",
+  "version": "1.0.0",
+  "description": "AI House Hunting and PayPal Booking Backend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "gemini",
+    "paypal",
+    "hackathon",
+    "real-estate",
+    "express"
+  ],
+  "author": "Nick Dieda",
+  "license": "MIT",
+  "dependencies": {
+    "@google/genai": "^2.30.0",
+    "@neondatabase/serverless": "^1.2.0",
+    "cors": "^2.8.6",
+    "dotenv": "^18.0.8",
+    "express": "^5.3.0",
+    "pg": "^8.23.1",
+    "ws": "^8.22.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14"
+  }
+}
