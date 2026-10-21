@@ -1,106 +1,87 @@
 import React from 'react';
+import { useAuth } from '../context/AuthContext';
 
-export default function Navbar({ onToggleSidebar, activePage, setActivePage, bookingsCount = 0, onOpenChat, searchQuery, setSearchQuery }) {
+export default function Navbar({
+  onToggleSidebar,
+  isSidebarOpen = true,
+  setActivePage,
+  onOpenChat,
+  onOpenProfile,
+}) {
+  const { user, isAuthenticated } = useAuth();
+
   return (
-    <header className="navbar navbar-expand bg-white border-bottom sticky-top px-3 py-2 shadow-xs">
+    <header className="navbar navbar-expand bg-white border-bottom sticky-top px-3 py-2">
       <div className="container-fluid px-0 d-flex align-items-center justify-content-between">
         
-        {/* Left: Mobile Toggle & Brand */}
-        <div className="d-flex align-items-center gap-3">
+        {/* Left: Sidebar Toggle & Brand */}
+        <div className="d-flex align-items-center gap-2">
+          {/* Sidebar Toggle Button */}
           <button
             type="button"
-            className="btn btn-outline-secondary d-lg-none btn-sm border-0"
+            className="btn btn-sm btn-light border rounded-circle d-flex align-items-center justify-content-center p-0"
+            style={{ width: 34, height: 34 }}
             onClick={onToggleSidebar}
+            title={isSidebarOpen ? 'Hide sidebar' : 'Show sidebar'}
             aria-label="Toggle Sidebar"
           >
-            <i className="bi bi-list fs-4"></i>
+            <i
+              className={`bi ${isSidebarOpen ? 'bi-layout-sidebar-inset-reverse' : 'bi-layout-sidebar-inset'}`}
+              style={{ color: '#0070BA', fontSize: '15px' }}
+            ></i>
           </button>
 
-          <div className="d-flex align-items-center gap-2 cursor-pointer" onClick={() => setActivePage('explore')}>
-            <div className="rounded-3 bg-primary text-white p-2 d-flex align-items-center justify-content-center shadow-sm">
-              <i className="bi bi-house-heart-fill fs-5"></i>
+          {/* Brand */}
+          <div
+            className="d-flex align-items-center gap-2 ms-1"
+            style={{ cursor: 'pointer' }}
+            onClick={() => setActivePage && setActivePage('explore')}
+          >
+            <div
+              className="rounded-circle d-flex align-items-center justify-content-center text-white"
+              style={{ width: 32, height: 32, backgroundColor: '#0070BA' }}
+            >
+              <i className="bi bi-houses-fill" style={{ fontSize: '14px' }}></i>
             </div>
-            <div>
-              <span className="fw-bold fs-5 text-dark">HouseNest</span>
-              <span className="badge bg-primary bg-opacity-10 text-primary ms-2 d-none d-sm-inline-block small">
-                Kenya Rentals
-              </span>
-            </div>
+            <span className="fw-bold fs-6 text-dark tracking-tight mb-0">NyumbaAI</span>
           </div>
         </div>
 
-        {/* Center: Quick Search Input if on Explore page */}
-        {activePage === 'explore' && (
-          <div className="d-none d-md-block flex-grow-1 mx-4" style={{ maxWidth: 420 }}>
-            <div className="input-group input-group-sm">
-              <span className="input-group-text bg-light border-end-0 text-muted">
-                <i className="bi bi-search"></i>
-              </span>
-              <input
-                type="text"
-                className="form-control bg-light border-start-0"
-                placeholder="Search by neighborhood, city, or house title..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-              {searchQuery && (
-                <button
-                  className="btn btn-light border border-start-0 text-muted"
-                  type="button"
-                  onClick={() => setSearchQuery('')}
-                >
-                  <i className="bi bi-x"></i>
-                </button>
-              )}
-            </div>
-          </div>
-        )}
-
-        {/* Right: Quick Action Buttons */}
+        {/* Right: AI Chat & Profile */}
         <div className="d-flex align-items-center gap-2">
-          {/* Quick AI Button */}
+          {/* Ask AI Button */}
           <button
             type="button"
-            className="btn btn-outline-primary btn-sm d-flex align-items-center gap-2 rounded-pill px-3 py-1 shadow-sm"
+            className="btn btn-sm text-white rounded-pill px-3 py-1 d-flex align-items-center gap-1 shadow-sm"
+            style={{ backgroundColor: '#0070BA', fontSize: '13px', fontWeight: '500' }}
             onClick={onOpenChat}
           >
-            <i className="bi bi-stars text-primary"></i>
-            <span className="d-none d-sm-inline fw-semibold">AI Assistant</span>
+            <i className="bi bi-chat-dots-fill"></i>
+            <span>Ask AI</span>
           </button>
 
-          {/* My Bookings Quick Link */}
-          <button
-            type="button"
-            className={`btn btn-sm position-relative rounded-pill px-3 py-1 ${
-              activePage === 'bookings' ? 'btn-primary' : 'btn-light border'
-            }`}
-            onClick={() => setActivePage('bookings')}
-            title="View Confirmed Bookings"
-          >
-            <i className="bi bi-receipt-cutoff me-1"></i>
-            <span className="d-none d-md-inline">Bookings</span>
-            {bookingsCount > 0 && (
-              <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                {bookingsCount}
+          {/* User Profile Chip */}
+          {isAuthenticated && user && (
+            <button
+              type="button"
+              className="btn btn-sm btn-light border rounded-pill py-1 px-2 d-flex align-items-center gap-2"
+              onClick={onOpenProfile}
+              title="Profile"
+            >
+              <img
+                src={user.avatar || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(user.name)}`}
+                alt={user.name}
+                className="rounded-circle"
+                style={{ width: 22, height: 22, objectFit: 'cover' }}
+              />
+              <span className="small d-none d-sm-inline text-dark" style={{ fontSize: '13px', fontWeight: '500' }}>
+                {user.name.split(' ')[0]}
               </span>
-            )}
-          </button>
-
-          {/* Add House Link */}
-          <button
-            type="button"
-            className={`btn btn-sm rounded-pill px-3 py-1 d-none d-sm-flex align-items-center gap-1 ${
-              activePage === 'add-house' ? 'btn-success' : 'btn-outline-success'
-            }`}
-            onClick={() => setActivePage('add-house')}
-          >
-            <i className="bi bi-plus-circle"></i>
-            <span>List House</span>
-          </button>
+            </button>
+          )}
         </div>
 
       </div>
     </header>
   );
 }
-

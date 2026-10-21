@@ -1,3 +1,18 @@
+const dns = require('dns');
+const originalLookup = dns.lookup;
+dns.lookup = function (hostname, options, callback) {
+  if (typeof options === 'function') {
+    callback = options;
+    options = {};
+  }
+  options = typeof options === 'number' ? { family: options } : { ...options };
+  if (!options.family) {
+    options.family = 4;
+  }
+  return originalLookup(hostname, options, callback);
+};
+dns.setDefaultResultOrder('ipv4first');
+
 const { neon } = require('@neondatabase/serverless');
 require('dotenv').config();
 
@@ -35,7 +50,24 @@ async function initDB() {
       );
     `);
 
-    // 2. Auto-create Bookings table
+    // 2. Auto-create Users table
+    await query(`
+      CREATE TABLE IF NOT EXISTS users (
+        id VARCHAR(50) PRIMARY KEY,
+        name VARCHAR(100) NOT NULL,
+        email VARCHAR(150) UNIQUE NOT NULL,
+        phone VARCHAR(50),
+        password_hash VARCHAR(255) NOT NULL,
+        avatar TEXT,
+        role VARCHAR(20) DEFAULT 'USER',
+        reset_otp VARCHAR(20) DEFAULT NULL,
+        reset_otp_expiry TIMESTAMP WITH TIME ZONE DEFAULT NULL,
+        created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
+        updated_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+      );
+    `);
+
+    // 3. Auto-create Bookings table
     await query(`
       CREATE TABLE IF NOT EXISTS bookings (
         booking_id VARCHAR(50) PRIMARY KEY,
@@ -59,13 +91,20 @@ async function initDB() {
         paypal_payer_id VARCHAR(100) DEFAULT NULL,
         paypal_payer_email VARCHAR(100) DEFAULT NULL,
         tenant_notes TEXT,
+        warning_sent BOOLEAN DEFAULT FALSE,
         created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
         paid_at TIMESTAMP WITH TIME ZONE DEFAULT NULL
       );
     `);
 
+    // Add warning_sent column if not existing
+    try {
+      await query(`ALTER TABLE bookings ADD COLUMN IF NOT EXISTS warning_sent BOOLEAN DEFAULT FALSE;`);
+    } catch {
+      // Column might already exist
+    }
 
-    console.log('Database tables verified and ready.');
+    console.log('PostgreSQL database tables verified and ready.');
   } catch (err) {
     console.error('Database auto-initialization error:', err);
   }
@@ -74,3 +113,5 @@ async function initDB() {
 initDB();
 
 module.exports = { query };
+
+

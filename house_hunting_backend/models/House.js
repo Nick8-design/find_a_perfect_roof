@@ -1,3 +1,4 @@
+// models/House.js
 const db = require('../database/db');
 
 class House {
@@ -46,13 +47,14 @@ class House {
     return rows[0];
   }
 
-  // 2. Search available houses for Gemini's search tool
+  // 2. Search available houses for Gemini's search tool & explore page
+  // CRITICAL: Houses that are BOOKED, or currently locked (PENDING_PAYMENT), are excluded!
   static async search({ location, maxRent, bedrooms }) {
     let sql = `
       SELECT id, title, location, bedrooms, monthly_rent, deposit_amount, 
-             description, images, amenities, contact_name, contact_phone, contact_role, status 
+             description, images, amenities, contact_name, contact_phone, contact_email, contact_role, status 
       FROM houses 
-      WHERE (status = 'AVAILABLE' OR (status = 'PENDING_PAYMENT' AND locked_until < NOW()))
+      WHERE (status = 'AVAILABLE' AND (locked_until IS NULL OR locked_until < NOW()))
     `;
     const params = [];
 
@@ -64,10 +66,12 @@ class House {
       params.push(maxRent);
       sql += ` AND monthly_rent <= $${params.length}`;
     }
-    if (bedrooms) {
+    if (bedrooms && bedrooms !== 'all') {
       params.push(bedrooms);
       sql += ` AND bedrooms = $${params.length}`;
     }
+
+    sql += ` ORDER BY created_at DESC;`;
 
     const { rows } = await db.query(sql, params);
     return rows;
@@ -87,14 +91,14 @@ class House {
           locked_until = NOW() + ($2 || ' minutes')::INTERVAL,
           locked_by = $3
       WHERE id = $1
-        AND (status = 'AVAILABLE' OR locked_until < NOW())
+        AND (status = 'AVAILABLE' OR (status = 'PENDING_PAYMENT' AND locked_until < NOW()))
       RETURNING *;
     `;
     const { rows } = await db.query(query, [houseId, lockMinutes, userId]);
     return rows[0] || null;
   }
 
-  // 5. Release lock if user cancels checkout
+  // 5. Release lock if user cancels checkout or order fails
   static async releaseLock(houseId) {
     await db.query(`
       UPDATE houses
@@ -107,7 +111,16 @@ class House {
   static async markBooked(houseId) {
     await db.query(`
       UPDATE houses
-      SET status = 'BOOKED', locked_until = NULL
+      SET status = 'BOOKED', locked_until = NULL, locked_by = NULL
+      WHERE id = $1;
+    `, [houseId]);
+  }
+
+  // 7. Reset back to AVAILABLE when lease concludes
+  static async markAvailable(houseId) {
+    await db.query(`
+      UPDATE houses
+      SET status = 'AVAILABLE', locked_until = NULL, locked_by = NULL
       WHERE id = $1;
     `, [houseId]);
   }
