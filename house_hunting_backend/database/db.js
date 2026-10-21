@@ -64,62 +64,6 @@ async function initDB() {
       );
     `);
 
-    // 3. Auto-seed sample houses if table is empty
-    const { rows } = await query('SELECT COUNT(*) FROM houses');
-    if (parseInt(rows[0].count) === 0) {
-      await query(`
-        INSERT INTO houses (
-          id, title, location, bedrooms, monthly_rent, deposit_amount, 
-          description, images, amenities, contact_name, contact_phone, contact_email, contact_role
-        ) VALUES 
-        (
-          'house_1', 
-          'Modern 2-Bedroom with Balcony', 
-          'Westlands', 
-          2, 
-          750.00, 
-          150.00, 
-          'Spacious modern apartment with master ensuite, natural lighting, and perimeter electric fence.',
-          ARRAY['https://images.unsplash.com/photo-1522708323590-d24dbb6b0267', 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688'],
-          ARRAY['High-Speed WiFi', 'Backup Generator', 'Dedicated Parking', '24/7 Security'],
-          'Samuel Mwangi',
-          '+254712345678',
-          'samuel.caretaker@example.com',
-          'Caretaker'
-        ),
-        (
-          'house_2', 
-          'Cozy Studio Apartment near Mall', 
-          'Kilimani', 
-          1, 
-          400.00, 
-          100.00, 
-          'Quiet, furnished studio apartment perfect for young professionals. Walking distance to supermarkets.',
-          ARRAY['https://images.unsplash.com/photo-1560448204-e02f11c3d0e2', 'https://images.unsplash.com/photo-1484154218962-a197022b5858'],
-          ARRAY['Borehole Water', 'CCTV Surveillance', 'Balcony', 'Elevator'],
-          'Grace Wanjiku',
-          '+254798765432',
-          'grace.landlord@example.com',
-          'Landlord'
-        ),
-        (
-          'house_3', 
-          'Charming 3-Bedroom Family Villa', 
-          'Karen', 
-          3, 
-          1200.00, 
-          250.00, 
-          'Stand-alone villa situated inside a private gated community. Large green yard and children play area.',
-          ARRAY['https://images.unsplash.com/photo-1600585154340-be6161a56a0c', 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9'],
-          ARRAY['Private Garden', 'Pet Friendly', 'Solar Water Heating', 'Perimeter Wall'],
-          'David Kiprop',
-          '+254722112233',
-          'david.agent@example.com',
-          'Property Manager'
-        );
-      `);
-      console.log('Sample rental listings auto-populated with contact details.');
-    }
 
     console.log('Database tables verified and ready.');
   } catch (err) {
