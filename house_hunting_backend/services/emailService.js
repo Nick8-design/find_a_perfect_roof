@@ -53,7 +53,7 @@ async function sendResendEmail({ to, subject, html }) {
  * 1. Send OTP / Password Reset Email
  */
 async function sendOtpEmail(toEmail, otp) {
-  const subject = 'HouseNest - Your Password Reset Verification Code';
+  const subject = 'NyumbaAi - Your Password Reset Verification Code';
   const html = `
     <!DOCTYPE html>
     <html>
