@@ -65,7 +65,7 @@ export default function Sidebar({
                     isActive ? 'text-white' : 'text-dark'
                   }`}
                   style={{
-                    backgroundColor: isActive ? '#0070BA' : 'transparent',
+                    backgroundColor: isActive ? '#001C3D' : 'transparent',
                     fontSize: '14px',
                     fontWeight: isActive ? '600' : '500',
                   }}

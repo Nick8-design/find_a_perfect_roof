@@ -179,7 +179,7 @@ export default function ExplorePage({ onBookHouse, onAskAI, searchQuery = '', se
           <div className="col-lg-3 col-md-8">
             <div className="d-flex justify-content-between mb-1">
               <label className="form-label small fw-semibold text-muted mb-0">Max Budget</label>
-              <span className="fw-bold small" style={{ color: '#0070BA' }}>${maxRent}/mo</span>
+              <span className="fw-bold small" style={{ color: '#001C3D' }}>${maxRent}/mo</span>
             </div>
             <input
               type="range"

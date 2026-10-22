@@ -20,14 +20,14 @@ export default function Navbar({
           <button
             type="button"
             className="btn btn-sm btn-light border rounded-circle d-flex align-items-center justify-content-center p-0"
-            style={{ width: 34, height: 34 }}
+            style={{ width: 34, height: 34 ,backgroundColor:"#001C3D"}}
             onClick={onToggleSidebar}
             title={isSidebarOpen ? 'Hide sidebar' : 'Show sidebar'}
             aria-label="Toggle Sidebar"
           >
             <i
               className={`bi ${isSidebarOpen ? 'bi-layout-sidebar-inset-reverse' : 'bi-layout-sidebar-inset'}`}
-              style={{ color: '#0070BA', fontSize: '15px' }}
+              style={{ color: '#e9ebec', fontSize: '15px' }}
             ></i>
           </button>
 
@@ -39,7 +39,7 @@ export default function Navbar({
           >
             <div
               className="rounded-circle d-flex align-items-center justify-content-center text-white"
-              style={{ width: 32, height: 32, backgroundColor: '#0070BA' }}
+              style={{ width: 32, height: 32, backgroundColor: '#001C3D' }}
             >
               <i className="bi bi-houses-fill" style={{ fontSize: '14px' }}></i>
             </div>
@@ -53,7 +53,7 @@ export default function Navbar({
           <button
             type="button"
             className="btn btn-sm text-white rounded-pill px-3 py-1 d-flex align-items-center gap-1 shadow-sm"
-            style={{ backgroundColor: '#0070BA', fontSize: '13px', fontWeight: '500' }}
+            style={{ backgroundColor: '#001C3D', fontSize: '13px', fontWeight: '500' }}
             onClick={onOpenChat}
           >
             <i className="bi bi-chat-dots-fill"></i>

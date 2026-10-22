@@ -196,7 +196,7 @@ export default function LoginPage() {
             <div className="d-lg-none d-flex align-items-center gap-2 mb-4">
               <div
                 className="rounded-circle d-flex align-items-center justify-content-center text-white"
-                style={{ width: 36, height: 36, backgroundColor: '#0070BA' }}
+                style={{ width: 36, height: 36, backgroundColor: '#001C3D' }}
               >
                 <i className="bi bi-houses-fill fs-6"></i>
               </div>
@@ -295,7 +295,7 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   className="btn text-white w-100 py-2 rounded-pill fw-semibold shadow-sm mb-3 d-flex align-items-center justify-content-center gap-2"
-                  style={{ backgroundColor: '#0070BA' }}
+                  style={{ backgroundColor: '#001C3D' }}
                   disabled={loading}
                 >
                   {loading && <div className="spinner-border spinner-border-sm" role="status"></div>}
@@ -373,7 +373,7 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   className="btn text-white w-100 py-2 rounded-pill fw-semibold shadow-sm mb-3 d-flex align-items-center justify-content-center gap-2"
-                  style={{ backgroundColor: '#0070BA' }}
+                  style={{ backgroundColor: '#001C3D' }}
                   disabled={loading}
                 >
                   {loading && <div className="spinner-border spinner-border-sm" role="status"></div>}
@@ -415,7 +415,7 @@ export default function LoginPage() {
                     <button
                       type="submit"
                       className="btn text-white w-100 py-2 rounded-pill fw-semibold shadow-sm mb-2 d-flex align-items-center justify-content-center gap-2"
-                      style={{ backgroundColor: '#0070BA' }}
+                      style={{ backgroundColor: '#001C3D' }}
                       disabled={loading}
                     >
                       {loading && <div className="spinner-border spinner-border-sm" role="status"></div>}
@@ -431,11 +431,7 @@ export default function LoginPage() {
                   </form>
                 ) : (
                   <form onSubmit={handleResetPassword}>
-                    {devOtpHint && (
-                      <div className="alert alert-info py-2 px-3 small rounded-3 mb-3 border-0">
-                        Code: <strong>{devOtpHint}</strong>
-                      </div>
-                    )}
+                   
                     <div className="mb-3">
                       <label className="form-label small fw-semibold text-dark">6-Digit Code</label>
                       <input
@@ -466,7 +462,7 @@ export default function LoginPage() {
                     <button
                       type="submit"
                       className="btn text-white w-100 py-2 rounded-pill fw-semibold shadow-sm mb-2 d-flex align-items-center justify-content-center gap-2"
-                      style={{ backgroundColor: '#0070BA' }}
+                      style={{ backgroundColor: '#001C3D' }}
                       disabled={loading}
                     >
                       {loading && <div className="spinner-border spinner-border-sm" role="status"></div>}

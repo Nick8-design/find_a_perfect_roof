@@ -126,7 +126,7 @@ export default function MyBookingsPage({ onNavigateExplore }) {
           <button
             type="button"
             className="btn btn-sm text-white rounded-pill px-3"
-            style={{ backgroundColor: '#0070BA' }}
+            style={{ backgroundColor: '#001C3D' }}
             onClick={onNavigateExplore}
           >
             Explore Houses
@@ -152,7 +152,7 @@ export default function MyBookingsPage({ onNavigateExplore }) {
           <div>
             <button
               className="btn btn-sm text-white rounded-pill px-4"
-              style={{ backgroundColor: '#0070BA' }}
+              style={{ backgroundColor: '#001C3D' }}
               onClick={onNavigateExplore}
             >
               Browse Houses

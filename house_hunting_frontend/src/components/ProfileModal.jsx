@@ -92,7 +92,7 @@ export default function ProfileModal({ isOpen, onClose, onOpenBookings }) {
                   <button
                     type="button"
                     className="btn btn-sm text-white rounded-pill w-100 py-2"
-                    style={{ backgroundColor: '#0070BA' }}
+                    style={{ backgroundColor: '#001C3D' }}
                     onClick={() => {
                       onClose();
                       if (onOpenBookings) onOpenBookings();
@@ -166,7 +166,7 @@ export default function ProfileModal({ isOpen, onClose, onOpenBookings }) {
                   <button
                     type="submit"
                     className="btn btn-sm text-white rounded-pill px-4"
-                    style={{ backgroundColor: '#0070BA' }}
+                    style={{ backgroundColor: '#001C3D' }}
                     disabled={loading}
                   >
                     Save

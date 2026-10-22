@@ -191,7 +191,7 @@ export default function HouseCard({ house, onBook, onAskAI }) {
           <button
             type="button"
             className="btn btn-sm text-white rounded-pill flex-grow-1 d-flex align-items-center justify-content-center gap-1"
-            style={{ backgroundColor: isBooked ? '#94A3B8' : '#0070BA' }}
+            style={{ backgroundColor: isBooked ? '#94A3B8' : '#001C3D' }}
             disabled={isBooked}
             onClick={() => onBook && onBook(house)}
           >

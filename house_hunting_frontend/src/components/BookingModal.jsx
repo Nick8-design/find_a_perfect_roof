@@ -240,7 +240,7 @@ export default function BookingModal({ house, isOpen, onClose, onBookingSuccess 
                 <button
                   type="button"
                   className="btn text-white px-4 py-2 rounded-pill fw-semibold"
-                  style={{ backgroundColor: '#0070BA' }}
+                  style={{ backgroundColor: '#001C3D' }}
                   onClick={handleCloseModal}
                 >
                   Done
@@ -381,7 +381,7 @@ export default function BookingModal({ house, isOpen, onClose, onBookingSuccess 
                         <button
                           type="submit"
                           className="btn btn-sm text-white rounded-pill px-4"
-                          style={{ backgroundColor: '#0070BA' }}
+                          style={{ backgroundColor: '#001C3D' }}
                           disabled={loading}
                         >
                           {loading ? 'Locking...' : 'Continue to PayPal'}
