@@ -3,7 +3,7 @@ const { GoogleGenAI } = require('@google/genai');
 const House = require('../models/House');
 const Booking = require('../models/Booking');
 
-const ai = new GoogleGenAI({ apiKey: "AQ.Ab8RN6Kzx3DisvKVHk2b-4rHgLhBivjYlswjnt7TB50r48iahg" });
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 function getPayPalBaseUrl() {
   const url = process.env.PAYPAL_API_BASE_URL || 'https://api-m.sandbox.paypal.com';
