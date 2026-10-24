@@ -27,6 +27,7 @@ export default function BookingModal({ house, isOpen, onClose, onBookingSuccess 
 
   const [isReadyForPayment, setIsReadyForPayment] = useState(false);
   const [activeBookingId, setActiveBookingId] = useState(null);
+  const [paypalOrderId, setPaypalOrderId] = useState(null);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [receipt, setReceipt] = useState(null);
@@ -98,6 +99,7 @@ export default function BookingModal({ house, isOpen, onClose, onBookingSuccess 
 
       if (result.success && result.orderId) {
         setActiveBookingId(result.bookingId);
+        setPaypalOrderId(result.orderId);
         setIsReadyForPayment(true);
       } else {
         throw new Error(result.error || 'Failed to initialize PayPal order.');
@@ -171,6 +173,7 @@ export default function BookingModal({ house, isOpen, onClose, onBookingSuccess 
     }
     setIsReadyForPayment(false);
     setActiveBookingId(null);
+    setPaypalOrderId(null);
   };
 
   const handleCloseModal = () => {
@@ -412,18 +415,7 @@ export default function BookingModal({ house, isOpen, onClose, onBookingSuccess 
                         <PayPalButtons
                           style={{ layout: 'vertical', shape: 'pill', color: 'gold' }}
                           createOrder={async () => {
-                            const res = await createBookingOrder({
-                              houseId: house.id,
-                              userId: user?.id || localStorage.getItem('house_hunter_userId') || `user_${Date.now()}`,
-                              tenantName,
-                              tenantPhone,
-                              tenantEmail,
-                              monthsPaid: Number(monthsPaid),
-                              startDate,
-                              tenantNotes,
-                            });
-                            setActiveBookingId(res.bookingId);
-                            return res.orderId;
+                            return paypalOrderId;
                           }}
                           onApprove={handleApprove}
                           onError={() => setErrorMessage('Payment could not be completed. Please try again.')}
