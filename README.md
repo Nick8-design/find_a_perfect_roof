@@ -1,4 +1,4 @@
-# NyumbaAI — Conversational AI Rental Discovery & PayPal Lease Booking
+# NyumbaAI : Conversational AI Rental Discovery & PayPal Lease Booking
 
 NyumbaAI is a full-stack real estate discovery and lease reservation platform built for the [PayPal AI Hackathon](https://paypalaihackathon.devpost.com/). It pairs a conversational AI assistant (**Nixy**, powered by Google Gemini function calling) with the [PayPal Orders v2 API](https://developer.paypal.com/docs/api/orders/v2/) and an atomic 15-minute PostgreSQL reservation lock to eliminate rental double-bookings and manual deposit friction.
 
