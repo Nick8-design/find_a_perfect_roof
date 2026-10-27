@@ -325,7 +325,7 @@ export default function LoginPage() {
                     type="text"
                     className="form-control rounded-3 py-2 px-3"
                     style={{ borderColor: '#CBD5E1', fontSize: '14px' }}
-                    placeholder="Jane Doe"
+                    placeholder="Nick Dieda"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     required

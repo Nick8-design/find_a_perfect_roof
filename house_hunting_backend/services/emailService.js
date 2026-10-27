@@ -18,7 +18,7 @@ async function sendResendEmail({ to, subject, html }) {
   }
 
   try {
-    const fromAddress = process.env.RESEND_FROM || 'HouseNest <onboarding@resend.dev>';
+    const fromAddress = process.env.RESEND_FROM || 'NyumbaAI <onboarding@resend.dev>';
     const recipientList = Array.isArray(to) ? to : [to];
 
     const response = await fetch('https://api.resend.com/emails', {
@@ -71,17 +71,17 @@ async function sendOtpEmail(toEmail, otp) {
     <body>
       <div class="container">
         <div class="header">
-          <h1 style="margin: 0; font-size: 24px;">🏡 HouseNest AI</h1>
+          <h1 style="margin: 0; font-size: 24px;">🏡 NyumbaAI</h1>
           <p style="margin: 6px 0 0 0; opacity: 0.9; font-size: 14px;">Password Reset Request</p>
         </div>
         <div class="content">
           <p>Hello,</p>
-          <p>We received a request to reset your password for your HouseNest account. Use the one-time verification code below to complete the reset process:</p>
+          <p>We received a request to reset your password for your NyumbaAI account. Use the one-time verification code below to complete the reset process:</p>
           <div class="otp-badge">${otp}</div>
           <p style="font-size: 13px; color: #64748b;">This code expires in <strong>15 minutes</strong>. If you did not request a password reset, please ignore this email or contact support.</p>
         </div>
         <div class="footer">
-          &copy; ${new Date().getFullYear()} HouseNest Inc. All rights reserved.
+          &copy; ${new Date().getFullYear()} NyumbaAI Inc. All rights reserved.
         </div>
       </div>
     </body>
@@ -220,7 +220,7 @@ async function sendLeaseExpiredNotice(toEmail, booking, house) {
         <div class="body">
           <p>Dear <strong>${booking.tenant_name}</strong>,</p>
           <p>Your lease for <strong>${house.title}</strong> ended on <strong>${booking.end_date}</strong>. As 5 days have passed without renewal, the listing has been marked as <strong>AVAILABLE</strong> for new prospective tenants.</p>
-          <p>Thank you for using HouseNest. If you are looking for your next home or apartment, visit HouseNest anytime to discover new verified listings.</p>
+          <p>Thank you for using NyumbaAI. If you are looking for your next home or apartment, visit NyumbaAI anytime to discover new verified listings.</p>
         </div>
       </div>
     </body>

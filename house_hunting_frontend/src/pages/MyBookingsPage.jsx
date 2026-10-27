@@ -239,7 +239,13 @@ export default function MyBookingsPage({ onNavigateExplore }) {
 
                       {activeMapHouse === b.booking_id && (
                         <div className="mb-3 rounded-3 overflow-hidden">
-                          <GoogleMapEmbed location={b.house_location} title={b.house_title} height={160} />
+                          <GoogleMapEmbed
+                            location={b.house_location}
+                            latitude={b.latitude}
+                            longitude={b.longitude}
+                            title={b.house_title}
+                            height={160}
+                          />
                         </div>
                       )}
                     </div>
@@ -424,3 +430,5 @@ export default function MyBookingsPage({ onNavigateExplore }) {
     </div>
   );
 }
+
+

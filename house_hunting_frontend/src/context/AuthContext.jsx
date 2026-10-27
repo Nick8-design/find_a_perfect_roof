@@ -5,7 +5,7 @@ const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(() => localStorage.getItem('housenest_auth_token'));
+  const [token, setToken] = useState(() => localStorage.getItem('nyumbaai_auth_token') || localStorage.getItem('housenest_auth_token'));
   const [loading, setLoading] = useState(true);
 
   // Load user profile on mount if token exists
@@ -32,7 +32,8 @@ export function AuthProvider({ children }) {
   const login = async (email, password) => {
     const res = await loginUser({ email, password });
     if (res.success && res.token) {
-      localStorage.setItem('housenest_auth_token', res.token);
+      localStorage.setItem('nyumbaai_auth_token', res.token);
+      localStorage.removeItem('housenest_auth_token');
       setToken(res.token);
       setUser(res.user);
       return res;
@@ -43,7 +44,8 @@ export function AuthProvider({ children }) {
   const register = async (userData) => {
     const res = await registerUser(userData);
     if (res.success && res.token) {
-      localStorage.setItem('housenest_auth_token', res.token);
+      localStorage.setItem('nyumbaai_auth_token', res.token);
+      localStorage.removeItem('housenest_auth_token');
       setToken(res.token);
       setUser(res.user);
       return res;
@@ -52,6 +54,7 @@ export function AuthProvider({ children }) {
   };
 
   const logout = () => {
+    localStorage.removeItem('nyumbaai_auth_token');
     localStorage.removeItem('housenest_auth_token');
     setToken(null);
     setUser(null);

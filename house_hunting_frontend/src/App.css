@@ -299,6 +299,28 @@
   }
 }
 
+/* Card Hover & Multi-Photo Carousel Styles */
+.house-card-hover {
+  transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.house-card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 28px -6px rgba(0, 0, 0, 0.12), 0 4px 10px -4px rgba(0, 0, 0, 0.06) !important;
+}
+
+.group-carousel button {
+  opacity: 0.85;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.group-carousel:hover button {
+  opacity: 1;
+}
+.group-carousel button:hover {
+  transform: translateY(-50%) scale(1.1) !important;
+  background-color: rgba(0, 0, 0, 0.95) !important;
+}
+
+
 .text-truncate-2 {
   display: -webkit-box;
   -webkit-line-clamp: 2;

@@ -24,6 +24,7 @@ export default function BookingModal({ house, isOpen, onClose, onBookingSuccess 
   });
   const [tenantNotes, setTenantNotes] = useState('');
   const [showMap, setShowMap] = useState(false);
+  const [modalImgIdx, setModalImgIdx] = useState(0);
 
   const [isReadyForPayment, setIsReadyForPayment] = useState(false);
   const [activeBookingId, setActiveBookingId] = useState(null);
@@ -255,12 +256,39 @@ export default function BookingModal({ house, isOpen, onClose, onBookingSuccess 
                 
                 {/* Left Column: Property Summary */}
                 <div className="col-md-5 border-end">
-                  <div className="rounded-3 overflow-hidden mb-3" style={{ height: 160 }}>
-                    <img src={houseImages[0]} alt={house.title} className="w-100 h-100 object-fit-cover" />
+                  <div className="position-relative rounded-3 overflow-hidden mb-3" style={{ height: 160 }}>
+                    <img
+                      src={houseImages[modalImgIdx] || houseImages[0]}
+                      alt={`${house.title} photo`}
+                      className="w-100 h-100 object-fit-cover"
+                    />
+                    {houseImages.length > 1 && (
+                      <>
+                        <button
+                          type="button"
+                          className="btn btn-dark btn-sm rounded-circle p-0 position-absolute top-50 start-0 translate-middle-y ms-2 d-flex align-items-center justify-content-center bg-opacity-75 border-0 shadow-sm"
+                          style={{ width: 26, height: 26, zIndex: 3 }}
+                          onClick={() => setModalImgIdx((prev) => (prev - 1 + houseImages.length) % houseImages.length)}
+                        >
+                          <i className="bi bi-chevron-left" style={{ fontSize: '12px' }}></i>
+                        </button>
+                        <button
+                          type="button"
+                          className="btn btn-dark btn-sm rounded-circle p-0 position-absolute top-50 end-0 translate-middle-y me-2 d-flex align-items-center justify-content-center bg-opacity-75 border-0 shadow-sm"
+                          style={{ width: 26, height: 26, zIndex: 3 }}
+                          onClick={() => setModalImgIdx((prev) => (prev + 1) % houseImages.length)}
+                        >
+                          <i className="bi bi-chevron-right" style={{ fontSize: '12px' }}></i>
+                        </button>
+                        <span className="badge rounded-pill bg-dark bg-opacity-75 position-absolute top-0 end-0 m-2 extra-small">
+                          {modalImgIdx + 1}/{houseImages.length}
+                        </span>
+                      </>
+                    )}
                   </div>
                   <h6 className="fw-bold text-dark mb-1 text-truncate">{house.title}</h6>
                   <div className="text-muted small mb-3">
-                    <i className="bi bi-geo-alt me-1"></i>
+                    <i className="bi bi-geo-alt text-danger me-1"></i>
                     {house.location}
                   </div>
 
@@ -281,13 +309,22 @@ export default function BookingModal({ house, isOpen, onClose, onBookingSuccess 
 
                   <button
                     type="button"
-                    className="btn btn-sm btn-link text-decoration-none p-0"
+                    className="btn btn-sm btn-link text-decoration-none p-0 d-flex align-items-center gap-1"
                     style={{ color: '#0070BA', fontSize: '13px' }}
                     onClick={() => setShowMap(!showMap)}
                   >
-                    {showMap ? 'Hide map' : 'View on map'}
+                    <i className="bi bi-geo-alt-fill text-danger"></i>
+                    <span>{showMap ? 'Hide map' : 'View on map'}</span>
                   </button>
-                  {showMap && <GoogleMapEmbed location={house.location} title={house.title} height={140} />}
+                  {showMap && (
+                    <GoogleMapEmbed
+                      location={house.location}
+                      latitude={house.latitude}
+                      longitude={house.longitude}
+                      title={house.title}
+                      height={150}
+                    />
+                  )}
                 </div>
 
                 {/* Right Column: Details or PayPal */}

@@ -12,7 +12,7 @@ const apiClient = axios.create({
 
 // Attach Authorization Bearer token to all requests if present
 apiClient.interceptors.request.use((config) => {
-  const token = localStorage.getItem('housenest_auth_token');
+  const token = localStorage.getItem('nyumbaai_auth_token') || localStorage.getItem('housenest_auth_token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }

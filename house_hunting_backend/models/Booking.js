@@ -105,6 +105,7 @@ class Booking {
   static async getByPayPalOrderId(paypalOrderId) {
     const { rows } = await db.query(`
       SELECT b.*, h.title as house_title, h.location as house_location, 
+             h.latitude, h.longitude,
              h.contact_phone as caretaker_phone, h.contact_email as caretaker_email
       FROM bookings b
       JOIN houses h ON b.house_id = h.id
@@ -117,6 +118,7 @@ class Booking {
   static async getById(bookingId) {
     const { rows } = await db.query(`
       SELECT b.*, h.title as house_title, h.location as house_location, 
+             h.latitude, h.longitude,
              h.images as house_images, h.contact_name, h.contact_phone, h.contact_email, h.contact_role
       FROM bookings b
       JOIN houses h ON b.house_id = h.id
@@ -131,6 +133,8 @@ class Booking {
       SELECT b.*, 
              h.title as house_title, 
              h.location as house_location, 
+             h.latitude,
+             h.longitude,
              h.images as house_images,
              h.description as house_description,
              h.amenities as house_amenities,
