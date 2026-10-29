@@ -96,7 +96,7 @@ exports.chat = async (req, res) => {
 
     // Send user message and tools to Gemini
     const response = await ai.models.generateContent({
-      model: 'gemini-3.8-flash',
+      model: 'gemini-3.5-flash-lite',
       contents: [
         ...conversationHistory,
         { role: 'user', parts: [{ text: message }] },
